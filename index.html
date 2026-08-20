@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fisher 🎣</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Segoe UI,Tahoma,sans-serif}body{min-height:100vh;overflow-x:hidden;color:#fff;text-shadow:1px 1px 3px #003;background:linear-gradient(#70d7ff,#0077a8 45%,#003d63);position:relative}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(0,160,220,.25),rgba(0,20,60,.45)),url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover;z-index:-4}
+body:after{content:"";position:fixed;inset:45% 0 0;background:linear-gradient(180deg,rgba(0,170,220,.18),rgba(0,25,75,.65));z-index:-3;animation:waterShift 7s ease-in-out infinite alternate}
+@keyframes waterShift{from{transform:translateY(0)}to{transform:translateY(18px)}}
+.container{width:min(1250px,96%);margin:auto;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:20px;align-items:start;padding:30px 0;position:relative;z-index:2}
+.card{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(8px);padding:22px;border-radius:24px;box-shadow:0 15px 40px rgba(0,0,0,.3);animation:cardIn .8s ease both}
+@keyframes cardIn{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+.jogo{text-align:center;min-height:600px;display:flex;flex-direction:column;align-items:center}
+h1{font-size:4rem;margin:5px 0 10px;font-weight:900;letter-spacing:3px;animation:titleFloat 3s ease-in-out infinite;text-shadow:0 4px 18px #004d70}
+@keyframes titleFloat{50%{transform:translateY(-7px) rotate(-1deg)}}
+.subtitle{margin:0 0 20px;opacity:.9}
+button{font-size:1.1rem;font-weight:800;padding:14px 22px;border:0;border-radius:16px;color:white;cursor:pointer;margin:6px;box-shadow:0 7px 15px rgba(0,0,0,.3);transition:.2s;position:relative;overflow:hidden;background:linear-gradient(135deg,#00bfff,#006fc9)}
+button:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 12px 25px rgba(0,0,0,.35)}button:active{transform:scale(.95)}
+#btnPescar{font-size:1.35rem;padding:16px 32px;background:linear-gradient(135deg,#00e0ff,#0074d9);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(0,200,255,0),0 8px 20px rgba(0,0,0,.35)}}
+#resultado{min-height:55px;font-size:1.25rem;font-weight:800;margin-top:10px;padding:12px}
+#imagem-peixe{height:190px;max-width:90%;object-fit:contain;filter:drop-shadow(0 8px 8px rgba(0,0,0,.55));display:none}
+.peixe-capturado{animation:fishCatch .8s cubic-bezier(.2,1.5,.5,1)}
+@keyframes fishCatch{0%{opacity:0;transform:translateY(70px) rotate(-15deg) scale(.2)}60%{opacity:1;transform:translateY(-12px) rotate(8deg) scale(1.15)}100%{transform:none}}
+#anzol{position:fixed;top:-150px;left:50%;height:180px;z-index:20;display:none;filter:drop-shadow(0 8px 8px #001);pointer-events:none}
+.animar-anzol{display:block!important;animation:hookDrop 2.1s ease-in-out}
+@keyframes hookDrop{0%{transform:translate(-50%,0) rotate(-15deg);opacity:0}20%{opacity:1}55%{transform:translate(-50%,48vh) rotate(5deg)}75%{transform:translate(-50%,42vh) rotate(-4deg)}100%{transform:translate(-50%,60vh) rotate(10deg);opacity:0}}
+#pontuacao,#tempo{font-size:1.25rem;font-weight:800;margin:5px}.stats{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:12px}.stat{padding:8px 14px;border-radius:14px;background:rgba(0,40,90,.35)}
+.panel-title{margin-top:0}.list{list-style:none;padding:0;margin:0}.list li{display:flex;align-items:center;gap:10px;margin:10px 0;padding:10px;border-radius:14px;background:rgba(255,255,255,.25);transition:.25s}.list li:hover{transform:translateX(6px);background:rgba(255,255,255,.38)}.list img{width:55px;height:55px;object-fit:contain;filter:drop-shadow(0 3px 4px #003)}
+#lista-inventario li{justify-content:space-between}.badge{font-weight:900;background:#005b8d;padding:3px 9px;border-radius:999px}
+.bubble{position:fixed;bottom:-40px;width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.65);background:rgba(255,255,255,.12);z-index:-1;animation:rise linear forwards}.bubble.big{width:22px;height:22px}@keyframes rise{to{transform:translateY(-115vh) translateX(var(--drift));opacity:0}}
+.splash{position:fixed;width:18px;height:18px;border:3px solid #b9f6ff;border-radius:50%;pointer-events:none;animation:splash .8s ease-out forwards;z-index:30}@keyframes splash{to{transform:scale(5);opacity:0}}
+#mensagem{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-100px);padding:12px 22px;border-radius:999px;background:rgba(0,55,100,.85);font-weight:900;z-index:50;transition:.45s;box-shadow:0 10px 25px rgba(0,0,0,.3)}#mensagem.show{transform:translateX(-50%) translateY(0)}
+.confete{position:fixed;width:9px;height:16px;z-index:40;pointer-events:none;animation:confetti 1.2s ease-out forwards}@keyframes confetti{to{transform:translate(var(--x),100vh) rotate(720deg);opacity:0}}
+.music-label{font-size:.85rem;opacity:.85}
+@media(max-width:950px){.container{grid-template-columns:1fr}.jogo{min-height:auto}.container .card{width:100%}h1{font-size:3rem}}
+</style>
+</head>
+<body>
+<div id="mensagem"></div>
+<div class="container">
+<section class="card jogo">
+<h1>🎣 Fisher</h1><p class="subtitle">Pesque, acumule pontos e encontre o peixe lendário!</p>
+<div><button id="btnPescar" onclick="pescar()">🎣 Lançar Anzol</button><button id="btnMusica" onclick="toggleMusica()">🔊 Música: Ligada</button></div>
+<span class="music-label">A trilha é local e começa quando você clicar em música.</span>
+<img id="anzol" src="fotos/anzol.png" alt="Anzol">
+<div id="resultado">Clique em “Lançar Anzol” para começar!</div>
+<img id="imagem-peixe" src="" alt="Peixe capturado">
+<div class="stats"><div class="stat" id="pontuacao">💰 Pontos: 0</div><div class="stat" id="tempo">⏱️ Tempo: 30</div></div>
+</section>
+<section class="card" id="lista-peixes"><h2 class="panel-title">🐟 Peixes Disponíveis</h2><ul class="list"></ul></section>
+<section class="card" id="inventario"><h2 class="panel-title">🎒 Inventário</h2><ul id="lista-inventario" class="list"></ul></section>
+</div>
+<audio id="musicaFundo" loop preload="auto"><source src="musica-pesca.wav" type="audio/wav"></audio>
+<script>
+const BASE='fotos/';
+const peixes=[
+{nome:'Lambari',chance:50,valor:5000,imagem:BASE+'lambari.png'},
+{nome:'Tilápia',chance:30,valor:7500,imagem:BASE+'tilapia.png'},
+{nome:'Dourado',chance:15,valor:8000,imagem:BASE+'dourado.png'},
+{nome:'Piranha',chance:6,valor:8500,imagem:BASE+'piranha.png'},
+{nome:'Peixe Lendário',chance:1,valor:100000,imagem:BASE+'peixe lendario.png'}];
+let pontos=0,tempoRestante=30,intervaloTempo=null,inventario={},musicaLigada=false,pescando=false;
+const $=id=>document.getElementById(id);
+function atualizarPontuacao(){$('pontuacao').textContent=`💰 Pontos: ${pontos.toLocaleString('pt-BR')}`}
+function atualizarTempo(){$('tempo').textContent=`⏱️ Tempo: ${tempoRestante}`}
+function atualizarInventario(){const lista=$('lista-inventario');lista.innerHTML='';if(!Object.keys(inventario).length){lista.innerHTML='<li>🎒 Ainda está vazio...</li>';return}for(const nome in inventario){const item=document.createElement('li');item.innerHTML=`<span>${nome}</span><span class="badge">${inventario[nome]}x</span>`;lista.appendChild(item)}}
+function iniciarTemporizador(){intervaloTempo=setInterval(()=>{tempoRestante--;atualizarTempo();if(tempoRestante<=0){clearInterval(intervaloTempo);intervaloTempo=null;pescando=false;mostrarMensagem(`⏰ Fim de jogo! Você fez ${pontos.toLocaleString('pt-BR')} pontos.`);$('btnPescar').disabled=true;$('btnPescar').textContent='🏁 Fim de jogo';}},1000)}
+function gerarListaPeixes(){const lista=document.querySelector('#lista-peixes ul');peixes.forEach(p=>{const li=document.createElement('li');li.innerHTML=`<img src="${p.imagem}" alt="${p.nome}"><span><b>${p.nome}</b><br>💰 R$ ${p.valor.toLocaleString('pt-BR')}</span>`;lista.appendChild(li)})}
+function criarBolha(){const b=document.createElement('span');b.className='bubble'+(Math.random()>.75?' big':'');b.style.left=Math.random()*100+'vw';b.style.setProperty('--drift',(Math.random()*160-80)+'px');b.style.animationDuration=(5+Math.random()*7)+'s';document.body.appendChild(b);setTimeout(()=>b.remove(),13000)}
+setInterval(criarBolha,450);for(let i=0;i<12;i++)setTimeout(criarBolha,i*250);
+function splash(x,y){const s=document.createElement('span');s.className='splash';s.style.left=x+'px';s.style.top=y+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),900)}
+function confetes(){for(let i=0;i<45;i++){const c=document.createElement('span');c.className='confete';c.style.left='50vw';c.style.top='18vh';c.style.setProperty('--x',(Math.random()*700-350)+'px');c.style.background=`hsl(${Math.random()*360},90%,65%)`;c.style.animationDelay=(Math.random()*.2)+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),1600)}}
+function mostrarMensagem(txt){$('mensagem').textContent=txt;$('mensagem').classList.add('show');setTimeout(()=>$('mensagem').classList.remove('show'),2500)}
+function pescar(){if(tempoRestante<=0||pescando)return;pescando=true;if(!intervaloTempo)iniciarTemporizador();const anzol=$('anzol'),img=$('imagem-peixe'),res=$('resultado');img.style.display='none';res.textContent='🌊 O anzol está descendo...';anzol.classList.remove('animar-anzol');void anzol.offsetWidth;anzol.classList.add('animar-anzol');setTimeout(()=>splash(innerWidth/2,innerHeight*.57),1200);setTimeout(()=>{const total=peixes.reduce((a,p)=>a+p.chance,0);let sorteio=Math.floor(Math.random()*total),ac=0,peixe;for(const p of peixes){ac+=p.chance;if(sorteio<ac){peixe=p;break}}res.textContent=`🎉 Você pescou um ${peixe.nome}! Valor: R$ ${peixe.valor.toLocaleString('pt-BR')}`;img.src=peixe.imagem;img.alt=peixe.nome;img.style.display='block';img.classList.remove('peixe-capturado');void img.offsetWidth;img.classList.add('peixe-capturado');pontos+=peixe.valor;inventario[peixe.nome]=(inventario[peixe.nome]||0)+1;atualizarPontuacao();atualizarInventario();mostrarMensagem(peixe.nome==='Peixe Lendário'?'🌟 PEIXE LENDÁRIO! 🌟':`🐟 ${peixe.nome} entrou no inventário!`);confetes();pescando=false;},2100)}
+async function toggleMusica(){const m=$('musicaFundo'),btn=$('btnMusica');try{if(m.paused){await m.play();musicaLigada=true;btn.textContent='🔊 Música: Ligada';mostrarMensagem('🎵 Música ligada!')}else{m.pause();musicaLigada=false;btn.textContent='🔇 Música: Desligada';mostrarMensagem('🔇 Música desligada')}}catch(e){mostrarMensagem('Clique novamente para liberar a música 🎵')}}
+$('musicaFundo').volume=.35;gerarListaPeixes();atualizarInventario();atualizarPontuacao();atualizarTempo();
+</script>
+</body>
+</html>
